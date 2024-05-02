@@ -40,6 +40,8 @@ export class BookController {
         this.router.get('/book', this.wrapMethod(this.getBooksList))
         this.router.get('/category', this.wrapMethod(this.getCatoryList))
         this.router.post('/book/filter', this.wrapMethod(this.postFilterBooks))
+        this.router.post('/book/order', this.wrapMethod(this.postBookOrder))
+        this.router.post('/book/order-history', this.wrapMethod(this.getBookOrderHistory))
     }
 
     async getBooksList(req: Request) {
@@ -60,6 +62,18 @@ export class BookController {
         const book_list = await this.bookService.postFilterBooks({ booktitle, author, selectedRating, selectedCategory, price_int, selectedPriceRange })
 
         return book_list
+    }
+
+    async postBookOrder(req: Request) {
+        const { user_id, book_id } = req.body
+        const order = await this.bookService.postBookOrder({ user_id, book_id })
+        return { success: true }
+    }
+
+    async getBookOrderHistory(req: Request) {
+        const { user_id } = req.body
+        const order = await this.bookService.getBookOrderHistory(user_id)
+        return order
     }
 
 }
