@@ -8,12 +8,15 @@
     "test": "tsc -p . --noEmit",
     "db:dev": "run-s db:update db:plan db:update",
     "db:plan": "auto-migrate pg < erd.txt",
-    "db:update": "knex migrate:latest && erd-to-types < erd.txt > types.ts"
+    "db:update": "knex migrate:latest && erd-to-types < erd.txt > types.ts",
+    "migrate": "knex migrate:latest",
+		"seed": "knex seed:run"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-session": "^1.18.0",

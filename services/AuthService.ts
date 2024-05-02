@@ -14,8 +14,6 @@ export class AuthService {
     async login(email: string, password_input: string) {
         let user = await this.table().select('*').where('email', email)
 
-
-
         if (user.length > 0) {
             let password_hash = user[0].password
 

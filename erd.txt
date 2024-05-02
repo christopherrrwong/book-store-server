@@ -32,7 +32,9 @@ book_description text
 auther varchar(50)
 publisher varchar(255)
 rating integer
+book_image text
 price_in_cent integer
+category_id integer FK >- category.id 
 
 
 
@@ -42,12 +44,6 @@ id integer PK
 name varchar(255)
 
 
-book_to_category
-----------------
-id integer PK
-book_id integer FK >0- book.id
-category_id integer FK >0- category.id
-
 
 order
 -----
@@ -55,6 +51,7 @@ id integer PK
 user_id integer FK >0- user.id
 order_date time
 total_amount_in_cent integer 
+
 
 order_details
 -------------
@@ -70,7 +67,7 @@ unit_price_in_cent integer
 
 
 # zoom: 1.000
-# view: (5322, 2777)
+# view: (5331, 2687)
 # text-bg: #6495ed
 # text-color: #000000
 # diagram-bg: #f5f5f5
@@ -78,8 +75,7 @@ unit_price_in_cent integer
 # table-bg: #ffffff
 # table-text: #000000
 # user (5567, 3563, #ff0000)
-# book_to_category (6143, 3524)
-# category (6507, 3530)
 # book (5699, 3260)
+# category (6184, 3375)
 # order (5823, 2914)
 # order_details (6112, 3119)

@@ -61,14 +61,6 @@ export class AuthController {
 
 
 
-        req.session.user = {
-            id: result.id,
-            username: result.username,
-        }
-
-        req.session.save()
-
-
         return result
     }
 
