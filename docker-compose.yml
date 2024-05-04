@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  book_store_server:
+    platform: linux/amd64
+    image: "wckc/book_store_server:latest"
+    ports:
+      - "8080:8080"
+    environment:
+      SECRET: ${SECRET}
+      DB_NAME: ${DB_NAME}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: postgres
+      DB_PORT: 5432
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:14.3-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_PORT: 5432
+    env_file:
+      - .env
+    ports:
+      - "8432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+
+
+
+
