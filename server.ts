@@ -8,6 +8,9 @@ import { BookService } from "./services/BookService";
 import { BookController } from "./controllers/BookController";
 import { UserService } from "./services/UserService";
 import { UserController } from "./controllers/UserController";
+import { isLoggedIn } from './utils/guard'
+import { OrderService } from "./services/OrderService";
+import { OrderController } from "./controllers/OrderController";
 
 const cors = require('cors');
 const app = express();
@@ -22,20 +25,21 @@ const bookService = new BookService(knex)
 const bookController = new BookController(bookService)
 const userService = new UserService(knex)
 const userController = new UserController(userService)
+const orderService = new OrderService(knex)
+const orderController = new OrderController(orderService)
 
 
 app.use(authController.router)
 app.use(bookController.router)
-app.use(userController.router)
+app.use(isLoggedIn, userController.router)
+app.use(orderController.router)
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
-app.get("/", function (req: Request, res: Response) {
-    res.end("Hello World");
-});
+
 
 const PORT = env.PORT;
 

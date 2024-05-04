@@ -29,7 +29,7 @@ export class BookService {
 
 
 
-        let query = this.knex('book').select('book.book_title', 'book.auther', 'book.rating', 'book.book_image', 'book.price_in_cent', 'category.name as category_name')
+        let query = this.knex('book').select('book.book_title', 'book.author', 'book.rating', 'book.book_image', 'book.price_in_cent', 'category.name as category_name')
             .join('category', 'book.category_id', 'category.id')
 
         if (typeof booktitle === 'string' && booktitle !== '') {
@@ -37,7 +37,7 @@ export class BookService {
         }
 
         if (typeof author === 'string' && author !== '') {
-            query = query.andWhere('book.auther', 'ilike', `%${author}%`)
+            query = query.andWhere('book.author', 'ilike', `%${author}%`)
         }
 
         if (typeof selectedRating === 'string' && selectedRating !== '') {
@@ -65,23 +65,6 @@ export class BookService {
         }
 
         return query
-    }
-
-    async postBookOrder(inpnt: { user_id: number, book_id: number }) {
-
-        const { user_id, book_id } = inpnt
-        const data = await this.knex('order').insert({ user_id, book_id })
-        return data
-    }
-
-    async getBookOrderHistory(user_id: number) {
-        const data = await this.knex('order').select('order.id, book.book_title, book.price_in_cent, category.name')
-            .join('category', 'book.category_id', 'category.id')
-            .join('book', 'order.book_id', 'book.id')
-            .join('user', 'order.user_id', 'user.id')
-            .where('user.id', user_id)
-
-        return data
     }
 
 

@@ -2,10 +2,9 @@ import { Request, Response, NextFunction, Router } from 'express'
 import { AuthService } from '../services/AuthService'
 import { HttpError } from '../utils/http.error'
 import '../utils/session'
-import { Book } from '../types'
-import { BookService } from '../services/BookService'
+import { OrderService } from '../services/OrderService'
 
-export class BookController {
+export class OrderController {
     router = Router()
 
     wrapMethod(method: (req: Request) => object | Promise<object>) {
@@ -36,31 +35,37 @@ export class BookController {
         }
     }
 
-    public constructor(private bookService: BookService) {
-        this.router.get('/book', this.wrapMethod(this.getBooksList))
-        this.router.get('/category', this.wrapMethod(this.getCatoryList))
-        this.router.post('/book/filter', this.wrapMethod(this.postFilterBooks))
-
+    public constructor(private orderService: OrderService) {
+        this.router.post('/book/order', this.wrapMethod(this.postBookOrder))
+        this.router.delete('/book/order/:id', this.wrapMethod(this.cancelBookOrder))
+        this.router.get('/book/order-history/:id', this.wrapMethod(this.getBookOrderHistory))
     }
 
-    async getBooksList(req: Request) {
-        const book_list = await this.bookService.getBooksList()
-        return book_list
+
+
+    async cancelBookOrder(req: Request) {
+        const order_id = req.params.id
+        const order = await this.orderService.cancelBookOrder(order_id)
+        return { success: true }
     }
 
-    async getCatoryList(req: Request) {
-        const category_list = await this.bookService.getCatoryList()
-        return category_list
+    async postBookOrder(req: Request) {
+        const { user_id, book_id } = req.body
+        const order = await this.orderService.postBookOrder({ user_id, book_id })
+
+        return { success: true }
     }
 
-    async postFilterBooks(req: Request) {
-        const { booktitle, author, selectedRating, selectedCategory, price, selectedPriceRange } = req.body
+    async getBookOrderHistory(req: Request) {
+        const user_id = req.params.id
 
-        const price_int = parseInt(price)
+        if (!user_id) {
+            throw new HttpError(404, 'Invalid ID')
+        }
 
-        const book_list = await this.bookService.postFilterBooks({ booktitle, author, selectedRating, selectedCategory, price_int, selectedPriceRange })
 
-        return book_list
+        const order = await this.orderService.getBookOrderHistory(user_id)
+        return order
     }
 
 }

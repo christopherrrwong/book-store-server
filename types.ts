@@ -15,7 +15,7 @@ export type Book = {
   id?: null | number
   book_title: string
   book_description: string
-  auther: string
+  author: string
   publisher: string
   rating: number
   book_image: string
@@ -29,15 +29,6 @@ export type Order = {
   user_id: number
   user?: User
   order_date: string
-  total_amount_in_cent: number
-}
-
-export type OrderDetails = {
-  id?: null | number
-  order_id: number
-  order?: Order
   book_id: number
   book?: Book
-  quantity: number
-  unit_price_in_cent: number
 }

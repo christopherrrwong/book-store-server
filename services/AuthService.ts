@@ -31,6 +31,8 @@ export class AuthService {
 
                 const token = jwtSimple.encode(payload, jwt.jwtSecret)
 
+                console.log(token)
+
                 return {
                     message: 'success',
                     token: token,
