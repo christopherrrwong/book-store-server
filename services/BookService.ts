@@ -25,8 +25,6 @@ export class BookService {
     }) {
 
         const { booktitle, author, selectedRating, selectedCategory, price_int, selectedPriceRange } = input
-        console.log(typeof price_int, price_int, typeof selectedPriceRange, selectedPriceRange)
-
 
 
         let query = this.knex('book').select('book.book_title', 'book.author', 'book.rating', 'book.book_image', 'book.price_in_cent', 'category.name as category_name')

@@ -14,7 +14,6 @@ export class OrderService {
         const order_date = now.toISOString().split('T')[0];
         const data = await this.knex('order').insert({ user_id: user_id, book_id: book_id, order_date: order_date })
 
-        console.log(data)
         return data
     }
 

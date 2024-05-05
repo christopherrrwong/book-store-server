@@ -75,4 +75,4 @@ function loadEnv() {
 }
 
 export const env = loadEnv()
-// console.log('check env', env)
+

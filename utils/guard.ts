@@ -27,7 +27,6 @@ export function isLoggedIn(req: Request, res: Response, next: NextFunction) {
 
         req.body.user_id = decoded.id;
 
-        console.log("Check decoded", decoded);
 
         return next();
     } catch (error) {
